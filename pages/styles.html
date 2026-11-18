@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design Styles – Interio</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="mainNav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        <span>Interio</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="styles.html" style="color:var(--clr-accent)">Styles</a></li>
+        <li><a href="fusion-styles.html">Fusion</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav__actions">
+        <a href="contact.html" class="nav__cta">Get a Quote</a>
+        <button class="nav__burger" id="navBurger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="nav__mobile" id="navMobile">
+      <ul>
+        <li><a href="styles.html">Styles</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="contact.html" class="mobile-cta">Get a Quote</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow reveal-up" style="text-align:center;margin-bottom:12px">Curated Aesthetics</p>
+      <h1 class="reveal-up delay-1">Our Design Styles</h1>
+      <p class="reveal-up delay-2">12 signature styles, each telling a unique story of space, light, and living.</p>
+    </div>
+  </section>
+
+  <!-- STYLES INTERACTIVE AUTO-SCROLLING CAROUSEL -->
+  <section class="styles-section" style="padding: 40px 0 20px;">
+    <div class="container">
+      <div class="section-header reveal-up" style="margin-bottom: 24px;">
+        <span class="eyebrow">Interactive Showcase</span>
+        <h2 style="font-size: 1.8rem;">Explore the Lineup</h2>
+      </div>
+    </div>
+    <div class="carousel-wrap">
+      <div class="carousel" id="stylesCarousel">
+        <div class="carousel__track" id="stylesTrack">
+
+          <div class="style-card" onclick="document.getElementById('modern').scrollIntoView({behavior:'smooth'})">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&q=80" alt="Modern" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Modern</h4>
+              <p>Clean lines, natural materials, open light</p>
+            </div>
+          </div>
+
+          <div class="style-card" onclick="document.getElementById('contemporary').scrollIntoView({behavior:'smooth'})">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80" alt="Contemporary" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Contemporary</h4>
+              <p>Sleek, fresh, and boldly minimal</p>
+            </div>
+          </div>
+
+          <div class="style-card" onclick="document.getElementById('modular').scrollIntoView({behavior:'smooth'})">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80" alt="Modular" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Modular</h4>
+              <p>Smart storage meets design excellence</p>
+            </div>
+          </div>
+
+          <div class="style-card" onclick="document.getElementById('minimalistic').scrollIntoView({behavior:'smooth'})">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=600&q=80" alt="Minimalistic" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Minimalistic</h4>
+              <p>Less is more — form, light, and calm</p>
+            </div>
+          </div>
+
+          <div class="style-card" onclick="document.getElementById('scandinavian').scrollIntoView({behavior:'smooth'})">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&q=80" alt="Scandinavian" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Scandinavian</h4>
+              <p>Hygge warmth in minimal form</p>
+            </div>
+          </div>
+
+          <div class="style-card" onclick="document.getElementById('farmhouse').scrollIntoView({behavior:'smooth'})">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&q=80" alt="Farmhouse" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Farmhouse</h4>
+              <p>Rustic warmth with practical beauty</p>
+            </div>
+          </div>
+
+          <div class="style-card" onclick="document.getElementById('rustic').scrollIntoView({behavior:'smooth'})">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=600&q=80" alt="Rustic" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Rustic</h4>
+              <p>Natural, raw, aged, beautifully casual</p>
+            </div>
+          </div>
+
+          <div class="style-card" onclick="document.getElementById('bohemian').scrollIntoView({behavior:'smooth'})">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=600&q=80" alt="Bohemian" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Bohemian</h4>
+              <p>Carefree, layered, vibrant freedom</p>
+            </div>
+          </div>
+
+          <div class="style-card" onclick="document.getElementById('industrial').scrollIntoView({behavior:'smooth'})">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80" alt="Industrial" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Industrial</h4>
+              <p>Urban grit meets refined character</p>
+            </div>
+          </div>
+
+          <div class="style-card" onclick="document.getElementById('mediterranean').scrollIntoView({behavior:'smooth'})">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=600&q=80" alt="Mediterranean" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Mediterranean</h4>
+              <p>Warm tones, natural materials, romance</p>
+            </div>
+          </div>
+
+          <div class="style-card" onclick="document.getElementById('hollywood-regency').scrollIntoView({behavior:'smooth'})">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=600&q=80" alt="Hollywood Regency" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Hollywood Regency</h4>
+              <p>Glamour, velvet, and golden opulence</p>
+            </div>
+          </div>
+
+          <div class="style-card" onclick="document.getElementById('eclectic').scrollIntoView({behavior:'smooth'})">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=600&q=80" alt="Eclectic" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Eclectic</h4>
+              <p>Bold mix of eras, textures, and culture</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="carousel__nav">
+        <button class="carousel__btn carousel__btn--prev" id="stylesPrev" aria-label="Previous">‹</button>
+        <div class="carousel__dots" id="stylesDots"></div>
+        <button class="carousel__btn carousel__btn--next" id="stylesNext" aria-label="Next">›</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTER TABS -->
+  <div class="container">
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all">All Styles</button>
+      <button class="filter-tab" data-filter="minimal">Minimal</button>
+      <button class="filter-tab" data-filter="cosy">Cosy & Warm</button>
+      <button class="filter-tab" data-filter="bold">Bold & Eclectic</button>
+      <button class="filter-tab" data-filter="luxe">Luxe</button>
+      <button class="filter-tab" data-filter="natural">Natural</button>
+    </div>
+  </div>
+
+  <!-- STYLES GRID -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="styles-grid">
+
+        <!-- Modern -->
+        <div class="style-detail-card reveal-scale" data-category="minimal" id="modern" style="--delay:0s">
+          <div class="style-detail-card__img">
+            <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&q=80" alt="Modern Interior" loading="lazy" />
+          </div>
+          <div class="style-detail-card__body">
+            <span class="card__tag">01 · Modern</span>
+            <h3>Modern Design</h3>
+            <p>Characterised by a monochromatic colour palette, clean lines, minimalism, natural materials, and natural light. A historical aesthetic movement that prizes function and form.</p>
+            <div class="style-features">
+              <span class="style-feature-tag">Clean Lines</span>
+              <span class="style-feature-tag">Natural Materials</span>
+              <span class="style-feature-tag">Open Lighting</span>
+              <span class="style-feature-tag">Neutral Walls</span>
+            </div>
+            <a href="contact.html" class="read-more-btn">Design with this style →</a>
+          </div>
+        </div>
+
+        <!-- Contemporary -->
+        <div class="style-detail-card reveal-scale" data-category="minimal" id="contemporary" style="--delay:0.1s">
+          <div class="style-detail-card__img">
+            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80" alt="Contemporary Interior" loading="lazy" />
+          </div>
+          <div class="style-detail-card__body">
+            <span class="card__tag">02 · Contemporary</span>
+            <h3>Contemporary Design</h3>
+            <p>Defined by simplicity, subtle sophistication, and deliberate use of texture and clean lines. Interiors showcase space rather than things — sleek, fresh, and always current.</p>
+            <div class="style-features">
+              <span class="style-feature-tag">Bold Neutrals</span>
+              <span class="style-feature-tag">Geometric Shapes</span>
+              <span class="style-feature-tag">Smooth Floors</span>
+              <span class="style-feature-tag">Metallic Accents</span>
+            </div>
+            <a href="contact.html" class="read-more-btn">Design with this style →</a>
+          </div>
+        </div>
+
+        <!-- Modular -->
+        <div class="style-detail-card reveal-scale" data-category="minimal" id="modular" style="--delay:0.2s">
+          <div class="style-detail-card__img">
+            <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80" alt="Modular Interior" loading="lazy" />
+          </div>
+          <div class="style-detail-card__body">
+            <span class="card__tag">03 · Modular</span>
+            <h3>Modular Design</h3>
+            <p>Designed to maximise functionality with clever storage solutions. Modular units are beautifully designed while adding bold statements and future flexibility to any room.</p>
+            <div class="style-features">
+              <span class="style-feature-tag">Smart Storage</span>
+              <span class="style-feature-tag">Easy Assembly</span>
+              <span class="style-feature-tag">Space-Saving</span>
+              <span class="style-feature-tag">Flexible</span>
+            </div>
+            <a href="contact.html" class="read-more-btn">Design with this style →</a>
+          </div>
+        </div>
+
+        <!-- Minimalistic -->
+        <div class="style-detail-card reveal-scale" data-category="minimal" id="minimalistic" style="--delay:0s">
+          <div class="style-detail-card__img">
+            <img src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&q=80" alt="Minimalistic Interior" loading="lazy" />
+          </div>
+          <div class="style-detail-card__body">
+            <span class="card__tag">04 · Minimalistic</span>
+            <h3>Minimalistic Design</h3>
+            <p>Uses only essential elements — light, form, and beautiful materials — to create a sense of freedom and relaxation. No excessive ornamentation; pure, clean, monochromatic serenity.</p>
+            <div class="style-features">
+              <span class="style-feature-tag">White & Grey Palette</span>
+              <span class="style-feature-tag">Flat Surfaces</span>
+              <span class="style-feature-tag">Natural Textiles</span>
+              <span class="style-feature-tag">Open Plan</span>
+            </div>
+            <a href="contact.html" class="read-more-btn">Design with this style →</a>
+          </div>
+        </div>
+
+        <!-- Scandinavian -->
+        <div class="style-detail-card reveal-scale" data-category="cosy" id="scandinavian" style="--delay:0.1s">
+          <div class="style-detail-card__img">
+            <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&q=80" alt="Scandinavian Interior" loading="lazy" />
+          </div>
+          <div class="style-detail-card__body">
+            <span class="card__tag">05 · Scandinavian</span>
+            <h3>Scandinavian Design</h3>
+            <p>A minimalistic style using a blend of textures and soft hues to make sleek modern décor feel warm and inviting. Emphasises clean lines, utility, and simple furnishings — the concept of hygge.</p>
+            <div class="style-features">
+              <span class="style-feature-tag">Hygge Warmth</span>
+              <span class="style-feature-tag">Wood Accents</span>
+              <span class="style-feature-tag">Pendant Lights</span>
+              <span class="style-feature-tag">Lush Greenery</span>
+            </div>
+            <a href="contact.html" class="read-more-btn">Design with this style →</a>
+          </div>
+        </div>
+
+        <!-- Farmhouse -->
+        <div class="style-detail-card reveal-scale" data-category="cosy" id="farmhouse" style="--delay:0.2s">
+          <div class="style-detail-card__img">
+            <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80" alt="Farmhouse Interior" loading="lazy" />
+          </div>
+          <div class="style-detail-card__body">
+            <span class="card__tag">06 · Farmhouse</span>
+            <h3>Farmhouse Design</h3>
+            <p>Defined by practicality and comfort, relying on readily available materials. Wood elements, white tones, and nothing matching perfectly — the beauty is in the functionality and history.</p>
+            <div class="style-features">
+              <span class="style-feature-tag">Shiplap & Beams</span>
+              <span class="style-feature-tag">Vintage Finds</span>
+              <span class="style-feature-tag">Natural Light</span>
+              <span class="style-feature-tag">Warm Neutrals</span>
+            </div>
+            <a href="contact.html" class="read-more-btn">Design with this style →</a>
+          </div>
+        </div>
+
+        <!-- Rustic -->
+        <div class="style-detail-card reveal-scale" data-category="cosy" id="rustic" style="--delay:0s">
+          <div class="style-detail-card__img">
+            <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=600&q=80" alt="Rustic Interior" loading="lazy" />
+          </div>
+          <div class="style-detail-card__body">
+            <span class="card__tag">07 · Rustic</span>
+            <h3>Rustic Design</h3>
+            <p>Represents a natural, rough, aged, and casual design style. It highlights rugged natural beauty through reclaimed wood, stone floors, exposed beams, and textured fabrics in warm earthy tones.</p>
+            <div class="style-features">
+              <span class="style-feature-tag">Reclaimed Wood</span>
+              <span class="style-feature-tag">Stone Floors</span>
+              <span class="style-feature-tag">Brick Walls</span>
+              <span class="style-feature-tag">Natural Textiles</span>
+            </div>
+            <a href="contact.html" class="read-more-btn">Design with this style →</a>
+          </div>
+        </div>
+
+        <!-- Bohemian -->
+        <div class="style-detail-card reveal-scale" data-category="bold" id="bohemian" style="--delay:0.1s">
+          <div class="style-detail-card__img">
+            <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&q=80" alt="Bohemian Interior" loading="lazy" />
+          </div>
+          <div class="style-detail-card__body">
+            <span class="card__tag">08 · Bohemian</span>
+            <h3>Bohemian Design</h3>
+            <p>Defined by a lack of structure, opting instead for carefree layers of pattern, texture, and colour. Plants, rugs, and a mix of light sources create an organic and soulful atmosphere.</p>
+            <div class="style-features">
+              <span class="style-feature-tag">Layered Textures</span>
+              <span class="style-feature-tag">Bold Patterns</span>
+              <span class="style-feature-tag">Plants & Greenery</span>
+              <span class="style-feature-tag">Handmade Decor</span>
+            </div>
+            <a href="contact.html" class="read-more-btn">Design with this style →</a>
+          </div>
+        </div>
+
+        <!-- Industrial -->
+        <div class="style-detail-card reveal-scale" data-category="bold" id="industrial" style="--delay:0.2s">
+          <div class="style-detail-card__img">
+            <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80" alt="Industrial Interior" loading="lazy" />
+          </div>
+          <div class="style-detail-card__body">
+            <span class="card__tag">09 · Industrial</span>
+            <h3>Industrial Design</h3>
+            <p>Inspired by old factories and industrial spaces. Features stripped-back architecture, weathered surfaces, raw elements, exposed bricks, concrete floors, and vintage furniture with radiating fixtures.</p>
+            <div class="style-features">
+              <span class="style-feature-tag">Exposed Pipes</span>
+              <span class="style-feature-tag">Brick Walls</span>
+              <span class="style-feature-tag">Concrete Floors</span>
+              <span class="style-feature-tag">Wood & Metal</span>
+            </div>
+            <a href="contact.html" class="read-more-btn">Design with this style →</a>
+          </div>
+        </div>
+
+        <!-- Mediterranean -->
+        <div class="style-detail-card reveal-scale" data-category="natural" id="mediterranean" style="--delay:0s">
+          <div class="style-detail-card__img">
+            <img src="https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=600&q=80" alt="Mediterranean Interior" loading="lazy" />
+          </div>
+          <div class="style-detail-card__body">
+            <span class="card__tag">10 · Mediterranean</span>
+            <h3>Mediterranean Design</h3>
+            <p>Characterised by simple and romantic aesthetics of Southern Europe. Light and warm tones, ceramics, wood, wrought iron, and cotton combine boldness, simplicity and convenience.</p>
+            <div class="style-features">
+              <span class="style-feature-tag">Arched Windows</span>
+              <span class="style-feature-tag">Natural Stone</span>
+              <span class="style-feature-tag">Indoor-Outdoor</span>
+              <span class="style-feature-tag">White Plaster</span>
+            </div>
+            <a href="contact.html" class="read-more-btn">Design with this style →</a>
+          </div>
+        </div>
+
+        <!-- Hollywood Regency -->
+        <div class="style-detail-card reveal-scale" data-category="luxe" id="hollywood-regency" style="--delay:0.1s">
+          <div class="style-detail-card__img">
+            <img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&q=80" alt="Hollywood Regency Interior" loading="lazy" />
+          </div>
+          <div class="style-detail-card__body">
+            <span class="card__tag">11 · Hollywood Regency</span>
+            <h3>Hollywood Regency</h3>
+            <p>Born in the Hollywood Golden Age of the 1920s–50s. Glamorous, opulent, and playful — featuring mirrored finishes, velvet fabrics, lacquered surfaces, and vibrant contrasting patterns.</p>
+            <div class="style-features">
+              <span class="style-feature-tag">Mirrored Furniture</span>
+              <span class="style-feature-tag">Velvet & Fur</span>
+              <span class="style-feature-tag">Gold Tones</span>
+              <span class="style-feature-tag">High Gloss</span>
+            </div>
+            <a href="contact.html" class="read-more-btn">Design with this style →</a>
+          </div>
+        </div>
+
+        <!-- Eclectic -->
+        <div class="style-detail-card reveal-scale" data-category="bold" id="eclectic" style="--delay:0.2s">
+          <div class="style-detail-card__img">
+            <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=800&q=80" alt="Eclectic Interior" loading="lazy" />
+          </div>
+          <div class="style-detail-card__body">
+            <span class="card__tag">12 · Eclectic</span>
+            <h3>Eclectic Design</h3>
+            <p>Blends different styles and motifs to create a unique, cohesive aesthetic. An informal mix of furnishings pulling from a wide variety of styles — maximalist but intentional and utterly personal.</p>
+            <div class="style-features">
+              <span class="style-feature-tag">Mixed Eras</span>
+              <span class="style-feature-tag">Bold Colours</span>
+              <span class="style-feature-tag">Vintage Pieces</span>
+              <span class="style-feature-tag">Global Patterns</span>
+            </div>
+            <a href="contact.html" class="read-more-btn">Design with this style →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <div class="cta-banner__bg">
+      <img src="https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=1920&q=80" alt="Beautiful Space" loading="lazy" />
+      <div class="cta-banner__overlay"></div>
+    </div>
+    <div class="cta-banner__content reveal-up">
+      <h2>Not sure which style is right for you?</h2>
+      <p>Our designers will help you discover your perfect aesthetic in a free consultation.</p>
+      <div class="cta-banner__actions">
+        <a href="contact.html" class="btn btn--white btn--lg">Book Free Consultation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="index.html" class="footer__logo">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            Interio
+          </a>
+          <p>Crafting spaces that inspire since 2009.</p>
+        </div>
+        <div class="footer__links">
+          <div class="footer__col">
+            <h5>Styles</h5>
+            <a href="#modern">Modern</a>
+            <a href="#scandinavian">Scandinavian</a>
+            <a href="#bohemian">Bohemian</a>
+            <a href="#industrial">Industrial</a>
+          </div>
+          <div class="footer__col">
+            <h5>Services</h5>
+            <a href="services.html">Residential</a>
+            <a href="services.html">Commercial</a>
+            <a href="services.html">3D Rendering</a>
+          </div>
+          <div class="footer__col">
+            <h5>Company</h5>
+            <a href="about.html">About</a>
+            <a href="projects.html">Projects</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>Copyright © 2024 Interio. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

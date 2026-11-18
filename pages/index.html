@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interio – Interior Design Reimagined</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="nav" id="mainNav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22" fill="none" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <span>Interio</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="styles.html">Styles</a></li>
+        <li><a href="fusion-styles.html">Fusion</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav__actions">
+        <a href="contact.html" class="nav__cta">Get a Quote</a>
+        <button class="nav__burger" id="navBurger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div class="nav__mobile" id="navMobile">
+      <ul>
+        <li><a href="styles.html">Styles</a></li>
+        <li><a href="fusion-styles.html">Fusion Styles</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="contact.html" class="mobile-cta">Get a Quote</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero__bg">
+      <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&q=80" alt="Luxury Interior" class="hero__img" />
+      <div class="hero__overlay"></div>
+    </div>
+    <div class="hero__content">
+      <p class="hero__eyebrow reveal-up">Introducing</p>
+      <h1 class="hero__title reveal-up delay-1">Interior Design<br/>Reimagined.</h1>
+      <p class="hero__subtitle reveal-up delay-2">Where every space tells your story.</p>
+      <div class="hero__actions reveal-up delay-3">
+        <a href="styles.html" class="btn btn--primary">Explore Styles</a>
+        <a href="contact.html" class="btn btn--ghost">Get Started →</a>
+      </div>
+    </div>
+    <div class="hero__scroll-hint">
+      <div class="scroll-dot"></div>
+    </div>
+  </section>
+
+  <!-- ===== MARQUEE STRIP ===== -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span>Modern</span><span>·</span>
+      <span>Contemporary</span><span>·</span>
+      <span>Scandinavian</span><span>·</span>
+      <span>Bohemian</span><span>·</span>
+      <span>Industrial</span><span>·</span>
+      <span>Mediterranean</span><span>·</span>
+      <span>Transitional</span><span>·</span>
+      <span>Hollywood Regency</span><span>·</span>
+      <span>Rustic</span><span>·</span>
+      <span>Minimalistic</span><span>·</span>
+      <span>Farmhouse</span><span>·</span>
+      <span>Eclectic</span><span>·</span>
+      <span>Modern</span><span>·</span>
+      <span>Contemporary</span><span>·</span>
+      <span>Scandinavian</span><span>·</span>
+      <span>Bohemian</span><span>·</span>
+      <span>Industrial</span><span>·</span>
+      <span>Mediterranean</span><span>·</span>
+    </div>
+  </div>
+
+  <!-- ===== FEATURED GRID ===== -->
+  <section class="featured section-padding">
+    <div class="container">
+      <div class="section-header reveal-up">
+        <h2>Transform Your Space</h2>
+        <p>Handcrafted interiors with soul, purpose, and beauty.</p>
+      </div>
+
+      <div class="featured__grid">
+        <!-- Card 1 – Large -->
+        <div class="featured__card featured__card--large reveal-scale" style="--delay:0s">
+          <div class="card__img-wrap">
+            <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=900&q=80" alt="Modern Living Room" loading="lazy" />
+          </div>
+          <div class="card__body">
+            <span class="card__tag">Modern</span>
+            <h3>Living Spaces That Breathe</h3>
+            <p>Clean lines, natural light, and purposeful simplicity define the modern home.</p>
+            <a href="styles.html#modern" class="card__link">Learn more →</a>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="featured__card reveal-scale" style="--delay:0.1s">
+          <div class="card__img-wrap">
+            <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&q=80" alt="Scandinavian Interior" loading="lazy" />
+          </div>
+          <div class="card__body">
+            <span class="card__tag">Scandinavian</span>
+            <h3>Warm Nordic Elegance</h3>
+            <p>Hygge-inspired comfort wrapped in minimal beauty.</p>
+            <a href="styles.html#scandinavian" class="card__link">Learn more →</a>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="featured__card reveal-scale" style="--delay:0.2s">
+          <div class="card__img-wrap">
+            <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=600&q=80" alt="Bohemian Interior" loading="lazy" />
+          </div>
+          <div class="card__body">
+            <span class="card__tag">Bohemian</span>
+            <h3>Free-Spirited & Layered</h3>
+            <p>Pattern, texture, and colour collide in beautiful harmony.</p>
+            <a href="styles.html#bohemian" class="card__link">Learn more →</a>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="featured__card reveal-scale" style="--delay:0.3s">
+          <div class="card__img-wrap">
+            <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80" alt="Industrial Interior" loading="lazy" />
+          </div>
+          <div class="card__body">
+            <span class="card__tag">Industrial</span>
+            <h3>Raw & Refined</h3>
+            <p>Exposed bricks, metal, and wood fused into urban sophistication.</p>
+            <a href="styles.html#industrial" class="card__link">Learn more →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FULL-BLEED CINEMATIC SECTION ===== -->
+  <section class="cinematic parallax-section">
+    <div class="parallax-bg">
+      <img src="https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=1920&q=80" alt="Luxury Interior" loading="lazy" />
+    </div>
+    <div class="cinematic__content">
+      <span class="cinematic__tag reveal-up">Our Philosophy</span>
+      <h2 class="cinematic__title reveal-up delay-1">Every Detail.<br/>Every Dream.</h2>
+      <p class="cinematic__body reveal-up delay-2">At Interio, we believe your space is an extension of who you are. Our designers craft environments that balance beauty, functionality, and personal expression — turning any room into a living masterpiece.</p>
+      <a href="about.html" class="btn btn--white reveal-up delay-3">About Interio →</a>
+    </div>
+  </section>
+
+  <!-- ===== STYLES CAROUSEL ===== -->
+  <section class="styles-section section-padding">
+    <div class="container">
+      <div class="section-header reveal-up">
+        <h2>12 Signature Styles</h2>
+        <p>Find the aesthetic that speaks to you.</p>
+      </div>
+    </div>
+    <div class="carousel-wrap">
+      <div class="carousel" id="stylesCarousel">
+        <div class="carousel__track" id="stylesTrack">
+
+          <div class="style-card">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=500&q=80" alt="Modern" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Modern</h4>
+              <p>Clean lines, natural materials, open light</p>
+            </div>
+          </div>
+
+          <div class="style-card">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500&q=80" alt="Contemporary" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Contemporary</h4>
+              <p>Sleek, fresh, and boldly minimal</p>
+            </div>
+          </div>
+
+          <div class="style-card">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&q=80" alt="Modular" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Modular</h4>
+              <p>Smart storage meets design excellence</p>
+            </div>
+          </div>
+
+          <div class="style-card">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=500&q=80" alt="Scandinavian" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Scandinavian</h4>
+              <p>Hygge warmth in minimal form</p>
+            </div>
+          </div>
+
+          <div class="style-card">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=600&q=80" alt="Farmhouse" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Farmhouse</h4>
+              <p>Rustic warmth with practical beauty</p>
+            </div>
+          </div>
+
+          <div class="style-card">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=600&q=80" alt="Rustic" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Rustic</h4>
+              <p>Natural, raw, aged, beautifully casual</p>
+            </div>
+          </div>
+
+          <div class="style-card">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80" alt="Industrial" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Industrial</h4>
+              <p>Urban grit meets refined character</p>
+            </div>
+          </div>
+
+          <div class="style-card">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=600&q=80" alt="Mediterranean" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Mediterranean</h4>
+              <p>Warm tones, natural materials, romance</p>
+            </div>
+          </div>
+
+          <div class="style-card">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=600&q=80" alt="Bohemian" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Bohemian</h4>
+              <p>Carefree, layered, vibrant freedom</p>
+            </div>
+          </div>
+
+          <div class="style-card">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=600&q=80" alt="Hollywood Regency" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Hollywood Regency</h4>
+              <p>Glamour, velvet, and golden opulence</p>
+            </div>
+          </div>
+
+          <div class="style-card">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?w=600&q=80" alt="Eclectic" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Eclectic</h4>
+              <p>Bold mix of eras, textures, and culture</p>
+            </div>
+          </div>
+
+          <div class="style-card">
+            <div class="style-card__img">
+              <img src="https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=600&q=80" alt="Minimalistic" loading="lazy" />
+            </div>
+            <div class="style-card__info">
+              <h4>Minimalistic</h4>
+              <p>Less is more — form, light, and calm</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="carousel__nav">
+        <button class="carousel__btn carousel__btn--prev" id="stylesPrev" aria-label="Previous">‹</button>
+        <div class="carousel__dots" id="stylesDots"></div>
+        <button class="carousel__btn carousel__btn--next" id="stylesNext" aria-label="Next">›</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SPLIT FEATURE – PROCESS ===== -->
+  <section class="process section-padding">
+    <div class="container">
+      <div class="section-header reveal-up">
+        <h2>How We Work</h2>
+        <p>A seamless journey from vision to reality.</p>
+      </div>
+      <div class="process__steps">
+        <div class="process__step reveal-up" style="--delay:0s">
+          <div class="process__icon">01</div>
+          <h3>Consultation</h3>
+          <p>We begin with a deep conversation about your lifestyle, tastes, and aspirations for the space.</p>
+        </div>
+        <div class="process__step reveal-up" style="--delay:0.15s">
+          <div class="process__icon">02</div>
+          <h3>Concept Design</h3>
+          <p>Our designers craft mood boards, 3D renderings, and material palettes tailored to your vision.</p>
+        </div>
+        <div class="process__step reveal-up" style="--delay:0.3s">
+          <div class="process__icon">03</div>
+          <h3>Execution</h3>
+          <p>Skilled craftsmen bring the design to life with precision, quality materials, and care.</p>
+        </div>
+        <div class="process__step reveal-up" style="--delay:0.45s">
+          <div class="process__icon">04</div>
+          <h3>Reveal</h3>
+          <p>We walk you through your transformed space — a place that feels entirely, beautifully yours.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SPLIT FEATURE – SERVICES ===== -->
+  <section class="split-feature section-padding bg-light">
+    <div class="container">
+      <div class="split-feature__inner">
+        <div class="split-feature__media reveal-left">
+          <div class="media-stack">
+            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&q=80" alt="Kitchen Design" loading="lazy" />
+            <div class="media-stack__badge">
+              <span class="badge-number">500+</span>
+              <span class="badge-label">Projects Completed</span>
+            </div>
+          </div>
+        </div>
+        <div class="split-feature__text reveal-right">
+          <span class="eyebrow">Our Services</span>
+          <h2>Spaces designed for life's every chapter.</h2>
+          <p>From single rooms to full-home transformations, Interio offers bespoke interior design services for residential, commercial, and hospitality spaces.</p>
+          <ul class="feature-list">
+            <li>✦ Residential Interior Design</li>
+            <li>✦ Commercial Space Planning</li>
+            <li>✦ Kitchen & Bath Remodelling</li>
+            <li>✦ Furniture Sourcing & Procurement</li>
+            <li>✦ 3D Visualisation & Rendering</li>
+            <li>✦ Project Management</li>
+          </ul>
+          <a href="services.html" class="btn btn--primary mt-6">View All Services →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS ===== -->
+  <section class="stats section-padding">
+    <div class="container">
+      <div class="stats__grid">
+        <div class="stat reveal-up" style="--delay:0s">
+          <span class="stat__num" data-target="500">0</span><span class="stat__sym">+</span>
+          <p>Projects Completed</p>
+        </div>
+        <div class="stat reveal-up" style="--delay:0.1s">
+          <span class="stat__num" data-target="12">0</span>
+          <p>Design Styles Offered</p>
+        </div>
+        <div class="stat reveal-up" style="--delay:0.2s">
+          <span class="stat__num" data-target="15">0</span><span class="stat__sym">+</span>
+          <p>Years of Experience</p>
+        </div>
+        <div class="stat reveal-up" style="--delay:0.3s">
+          <span class="stat__num" data-target="98">0</span><span class="stat__sym">%</span>
+          <p>Client Satisfaction</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="testimonials section-padding bg-dark">
+    <div class="container">
+      <div class="section-header reveal-up" style="color:#fff">
+        <h2>What Our Clients Say</h2>
+        <p style="color:rgba(255,255,255,0.6)">Real stories from real people who live beautifully.</p>
+      </div>
+      <div class="testimonial-carousel" id="testimonialCarousel">
+        <div class="testimonial-track" id="testimonialTrack">
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>"Interio transformed our old apartment into a stunning Scandinavian haven. Every detail was thoughtfully curated. We couldn't be happier!"</p>
+            <div class="testimonial-author">
+              <div class="author-avatar" style="background:#6366f1">A</div>
+              <div>
+                <strong>Anjali Mehta</strong>
+                <span>Mumbai, Maharashtra</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>"The team at Interio brought our bohemian dream to life. The layered textures, the plants, the warm lighting — it's like living in an art gallery."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar" style="background:#8b5cf6">R</div>
+              <div>
+                <strong>Rahul Sharma</strong>
+                <span>Bangalore, Karnataka</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>"From the first consultation to the final reveal, the experience was seamless and exciting. Our kitchen is now the heart of our home."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar" style="background:#ec4899">P</div>
+              <div>
+                <strong>Priya Kapoor</strong>
+                <span>Delhi, NCR</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>"Industrial style was something I always admired online but couldn't imagine in my own home. Interio made it real — and it's breathtaking."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar" style="background:#f59e0b">V</div>
+              <div>
+                <strong>Vikram Nair</strong>
+                <span>Pune, Maharashtra</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel__nav">
+          <button class="carousel__btn carousel__btn--prev dark" id="testimonialPrev" aria-label="Previous">‹</button>
+          <div class="carousel__dots dark" id="testimonialDots"></div>
+          <button class="carousel__btn carousel__btn--next dark" id="testimonialNext" aria-label="Next">›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FULL-BLEED CTA ===== -->
+  <section class="cta-banner">
+    <div class="cta-banner__bg">
+      <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1920&q=80" alt="Beautiful Home" loading="lazy" />
+      <div class="cta-banner__overlay"></div>
+    </div>
+    <div class="cta-banner__content reveal-up">
+      <h2>Your Dream Space Awaits.</h2>
+      <p>Book a free consultation with one of our expert designers today.</p>
+      <div class="cta-banner__actions">
+        <a href="contact.html" class="btn btn--white btn--lg">Book Free Consultation</a>
+        <a href="projects.html" class="btn btn--outline-white btn--lg">View Our Work</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="index.html" class="footer__logo">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22" fill="none" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            Interio
+          </a>
+          <p>Crafting spaces that inspire since 2009.</p>
+        </div>
+        <div class="footer__links">
+          <div class="footer__col">
+            <h5>Styles</h5>
+            <a href="styles.html#modern">Modern</a>
+            <a href="styles.html#contemporary">Contemporary</a>
+            <a href="styles.html#scandinavian">Scandinavian</a>
+            <a href="styles.html#bohemian">Bohemian</a>
+            <a href="styles.html">View All →</a>
+          </div>
+          <div class="footer__col">
+            <h5>Services</h5>
+            <a href="services.html">Residential</a>
+            <a href="services.html">Commercial</a>
+            <a href="services.html">Kitchen & Bath</a>
+            <a href="services.html">3D Rendering</a>
+          </div>
+          <div class="footer__col">
+            <h5>Company</h5>
+            <a href="about.html">About Us</a>
+            <a href="projects.html">Our Work</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>Copyright © 2024 Interio. All rights reserved.</p>
+        <div class="footer__social">
+          <a href="#" aria-label="Instagram">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" fill="none" stroke="currentColor" stroke-width="2"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="currentColor" stroke-width="2"/></svg>
+          </a>
+          <a href="#" aria-label="Pinterest">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.19-.77 1.28-5.43 1.28-5.43s-.33-.65-.33-1.62c0-1.52.88-2.65 1.98-2.65.93 0 1.38.7 1.38 1.54 0 .94-.6 2.34-.91 3.64-.26 1.09.54 1.97 1.6 1.97 1.92 0 3.21-2.47 3.21-5.4 0-2.23-1.52-3.79-3.69-3.79-2.52 0-4 1.89-4 3.84 0 .76.29 1.57.65 2.02a.26.26 0 01.06.25c-.07.28-.22.88-.25 1-.03.16-.11.19-.26.11-.97-.45-1.58-1.86-1.58-3 0-2.44 1.78-5.1 5.13-5.1 2.69 0 4.79 1.92 4.79 4.49 0 3-1.68 5.26-3.99 5.26-.78 0-1.51-.41-1.76-.88l-.48 1.8c-.17.66-.64 1.49-.95 2 .71.22 1.47.34 2.25.34 5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+          </a>
+          <a href="#" aria-label="Houzz">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18L20 8.5v7L12 20 4 15.5v-7L12 4.18z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

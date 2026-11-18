@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects – Interio</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="mainNav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+        <span>Interio</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="styles.html">Styles</a></li>
+        <li><a href="fusion-styles.html">Fusion</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="projects.html" style="color:var(--clr-accent)">Projects</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <div class="nav__actions">
+        <a href="contact.html" class="nav__cta">Get a Quote</a>
+        <button class="nav__burger" id="navBurger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="nav__mobile" id="navMobile">
+      <ul>
+        <li><a href="styles.html">Styles</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="contact.html" class="mobile-cta">Get a Quote</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow reveal-up" style="text-align:center;margin-bottom:12px">Portfolio</p>
+      <h1 class="reveal-up delay-1">Our Work</h1>
+      <p class="reveal-up delay-2">Every project is a story — here's a glimpse into the spaces we've had the privilege of designing.</p>
+    </div>
+  </section>
+
+  <!-- FILTER TABS -->
+  <div class="container">
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all">All Projects</button>
+      <button class="filter-tab" data-filter="residential">Residential</button>
+      <button class="filter-tab" data-filter="commercial">Commercial</button>
+      <button class="filter-tab" data-filter="kitchen">Kitchen & Bath</button>
+      <button class="filter-tab" data-filter="hospitality">Hospitality</button>
+    </div>
+  </div>
+
+  <!-- MASONRY GRID -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="projects-masonry">
+
+        <div class="project-item reveal-scale" data-category="residential" style="--delay:0s">
+          <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&q=80" alt="Modern Villa, Mumbai" loading="lazy" />
+          <div class="project-overlay">
+            <div class="project-overlay-text">
+              <h4>Modern Villa, Mumbai</h4>
+              <span>Residential · Modern</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-item reveal-scale" data-category="commercial" style="--delay:0.1s">
+          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" alt="Tech Office, Bangalore" loading="lazy" />
+          <div class="project-overlay">
+            <div class="project-overlay-text">
+              <h4>Tech Office, Bangalore</h4>
+              <span>Commercial · Contemporary</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-item reveal-scale" data-category="residential" style="--delay:0.2s">
+          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80" alt="Scandinavian Apartment, Delhi" loading="lazy" />
+          <div class="project-overlay">
+            <div class="project-overlay-text">
+              <h4>Scandinavian Apt, Delhi</h4>
+              <span>Residential · Scandinavian</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-item reveal-scale" data-category="kitchen" style="--delay:0s">
+          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80" alt="Luxury Kitchen, Pune" loading="lazy" />
+          <div class="project-overlay">
+            <div class="project-overlay-text">
+              <h4>Luxury Kitchen, Pune</h4>
+              <span>Kitchen · Modern</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-item reveal-scale" data-category="residential" style="--delay:0.1s">
+          <img src="https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&q=80" alt="Bohemian Retreat, Goa" loading="lazy" />
+          <div class="project-overlay">
+            <div class="project-overlay-text">
+              <h4>Bohemian Retreat, Goa</h4>
+              <span>Residential · Bohemian</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-item reveal-scale" data-category="hospitality" style="--delay:0.2s">
+          <img src="https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&q=80" alt="Boutique Hotel, Jaipur" loading="lazy" />
+          <div class="project-overlay">
+            <div class="project-overlay-text">
+              <h4>Boutique Hotel, Jaipur</h4>
+              <span>Hospitality · Hollywood Regency</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-item reveal-scale" data-category="residential" style="--delay:0s">
+          <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80" alt="Industrial Loft, Hyderabad" loading="lazy" />
+          <div class="project-overlay">
+            <div class="project-overlay-text">
+              <h4>Industrial Loft, Hyderabad</h4>
+              <span>Residential · Industrial</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-item reveal-scale" data-category="kitchen" style="--delay:0.1s">
+          <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=600&q=80" alt="Farmhouse Kitchen, Shimla" loading="lazy" />
+          <div class="project-overlay">
+            <div class="project-overlay-text">
+              <h4>Farmhouse Kitchen, Shimla</h4>
+              <span>Kitchen · Farmhouse</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-item reveal-scale" data-category="commercial" style="--delay:0.2s">
+          <img src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=600&q=80" alt="Boutique Retail, Chennai" loading="lazy" />
+          <div class="project-overlay">
+            <div class="project-overlay-text">
+              <h4>Boutique Retail, Chennai</h4>
+              <span>Commercial · Minimalistic</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-item reveal-scale" data-category="residential" style="--delay:0s">
+          <img src="https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=600&q=80" alt="Mediterranean Villa, Ahmedabad" loading="lazy" />
+          <div class="project-overlay">
+            <div class="project-overlay-text">
+              <h4>Mediterranean Villa</h4>
+              <span>Residential · Mediterranean</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-item reveal-scale" data-category="hospitality" style="--delay:0.1s">
+          <img src="https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=600&q=80" alt="Luxury Spa, Udaipur" loading="lazy" />
+          <div class="project-overlay">
+            <div class="project-overlay-text">
+              <h4>Luxury Spa, Udaipur</h4>
+              <span>Hospitality · Rustic</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-item reveal-scale" data-category="residential" style="--delay:0.2s">
+          <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&q=80" alt="Eclectic Home, Kolkata" loading="lazy" />
+          <div class="project-overlay">
+            <div class="project-overlay-text">
+              <h4>Eclectic Home, Kolkata</h4>
+              <span>Residential · Eclectic</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- AWARD BADGE STRIP -->
+  <section class="awards-strip section-padding bg-light">
+    <div class="container">
+      <div class="section-header reveal-up">
+        <h2>Recognised for Excellence</h2>
+        <p>Our work has been featured and awarded by leading design publications.</p>
+      </div>
+      <div class="awards-row reveal-up delay-1">
+        <div class="award-badge">🏆 <span>Interior Design Awards 2023</span></div>
+        <div class="award-badge">🌟 <span>Elle Décor A-List 2022</span></div>
+        <div class="award-badge">🎖️ <span>AD100 List 2023</span></div>
+        <div class="award-badge">🏅 <span>Dezeen Awards Shortlist</span></div>
+        <div class="award-badge">✨ <span>Houzz Best of Design 2023</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <div class="cta-banner__bg">
+      <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=1920&q=80" alt="Beautiful Space" loading="lazy" />
+      <div class="cta-banner__overlay"></div>
+    </div>
+    <div class="cta-banner__content reveal-up">
+      <h2>Let's create your story.</h2>
+      <p>Your project could be next. Book a free consultation to get started.</p>
+      <div class="cta-banner__actions">
+        <a href="contact.html" class="btn btn--white btn--lg">Start Your Project</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="index.html" class="footer__logo">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+            Interio
+          </a>
+          <p>Crafting spaces that inspire since 2009.</p>
+        </div>
+        <div class="footer__links">
+          <div class="footer__col">
+            <h5>Styles</h5>
+            <a href="styles.html">View All Styles</a>
+          </div>
+          <div class="footer__col">
+            <h5>Services</h5>
+            <a href="services.html">Our Services</a>
+          </div>
+          <div class="footer__col">
+            <h5>Company</h5>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>Copyright © 2024 Interio. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <style>
+    .awards-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    .award-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--clr-white);
+      padding: 16px 28px;
+      border-radius: 980px;
+      box-shadow: var(--shadow);
+      font-size: 0.9rem;
+      font-weight: var(--fw-medium);
+      transition: transform 0.3s;
+    }
+    .award-badge:hover { transform: translateY(-3px); }
+    .award-badge span { color: var(--clr-text); }
+  </style>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
