@@ -273,17 +273,331 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
-  // Styles carousel (used on both index.html and styles.html)
-  const stylesTrack = document.getElementById('stylesTrack');
-  const getVisible = () => window.innerWidth < 600 ? 1 : window.innerWidth < 1024 ? 2 : 4;
-  initCarousel(
-    stylesTrack,
-    document.getElementById('stylesPrev'),
-    document.getElementById('stylesNext'),
-    document.getElementById('stylesDots'),
-    getVisible,
-    2600
-  );
+  /* ── Apple-style "12 Signature Styles" Carousel ─────────── */
+  function initAppleStylesCarousel() {
+    const track = document.getElementById('stylesTrack');
+    const pill = document.getElementById('stylesDotsPill');
+    const playPauseBtn = document.getElementById('stylesPlayPause');
+    if (!track || !pill) return;
+
+    const slides = Array.from(track.querySelectorAll('.style-slide'));
+    const total = slides.length;
+    if (!total) return;
+
+    const AUTOPLAY_DURATION = 5000;
+    const SLIDE_TRANSITION = 800;
+
+    let currentIndex = 0;
+    let isPlaying = true;
+    let isUserInteracting = false;
+    let isSectionVisible = true;
+    let progress = 0;
+    let lastTimestamp = null;
+    let animId = null;
+    let isProgrammaticScroll = false;
+    let scrollTimeout = null;
+    const dots = [];
+
+    // Check prefers-reduced-motion
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let prefersReducedMotion = motionQuery.matches;
+    if (prefersReducedMotion) {
+      isPlaying = false;
+    }
+    motionQuery.addEventListener('change', (e) => {
+      prefersReducedMotion = e.matches;
+      if (prefersReducedMotion) {
+        isPlaying = false;
+        updatePlayPauseButton();
+      }
+    });
+
+    // Accurate cubic-bezier(0.25, 0.1, 0.25, 1) solver
+    function cubicBezier(p1x, p1y, p2x, p2y) {
+      const cx = 3 * p1x;
+      const bx = 3 * (p2x - p1x) - cx;
+      const ax = 1 - cx - bx;
+      const cy = 3 * p1y;
+      const by = 3 * (p2y - p1y) - cy;
+      const ay = 1 - cy - by;
+
+      function sampleX(t) { return ((ax * t + bx) * t + cx) * t; }
+      function sampleY(t) { return ((ay * t + by) * t + cy) * t; }
+      function derivativeX(t) { return (3 * ax * t + 2 * bx) * t + cx; }
+
+      return function (x) {
+        if (x <= 0) return 0;
+        if (x >= 1) return 1;
+        let t = x;
+        for (let i = 0; i < 8; i++) {
+          const dx = sampleX(t) - x;
+          if (Math.abs(dx) < 1e-5) break;
+          const d = derivativeX(t);
+          if (Math.abs(d) < 1e-5) break;
+          t -= dx / d;
+        }
+        return sampleY(t);
+      };
+    }
+    const appleEase = cubicBezier(0.25, 0.1, 0.25, 1.0);
+
+    // Build pill dots
+    pill.innerHTML = '';
+    for (let i = 0; i < total; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'carousel__dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+      dot.setAttribute('role', 'tab');
+      dot.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+
+      const fill = document.createElement('span');
+      fill.className = 'carousel__dot-fill';
+      dot.appendChild(fill);
+
+      dot.addEventListener('click', () => {
+        goToSlide(i, true);
+        progress = 0;
+        lastTimestamp = performance.now();
+      });
+
+      pill.appendChild(dot);
+      dots.push({ btn: dot, fill: fill });
+    }
+
+    function getSlideStep() {
+      if (!slides[0]) return 1020;
+      const style = window.getComputedStyle(track);
+      const gap = parseFloat(style.gap) || 20;
+      return slides[0].offsetWidth + gap;
+    }
+
+    function getTargetScroll(idx) {
+      if (idx === 0) return 0;
+      const step = getSlideStep();
+      return Math.min(idx * step, track.scrollWidth - track.clientWidth);
+    }
+
+    let scrollAnimId = null;
+    function smoothScrollTo(targetX, duration = SLIDE_TRANSITION, callback) {
+      if (scrollAnimId) cancelAnimationFrame(scrollAnimId);
+      isProgrammaticScroll = true;
+      const startX = track.scrollLeft;
+      const distance = targetX - startX;
+      if (Math.abs(distance) < 2) {
+        track.scrollLeft = targetX;
+        isProgrammaticScroll = false;
+        if (callback) callback();
+        return;
+      }
+      const startTime = performance.now();
+
+      function step(now) {
+        const elapsed = now - startTime;
+        const t = Math.min(1, elapsed / duration);
+        track.scrollLeft = startX + distance * appleEase(t);
+        if (t < 1) {
+          scrollAnimId = requestAnimationFrame(step);
+        } else {
+          track.scrollLeft = targetX;
+          isProgrammaticScroll = false;
+          scrollAnimId = null;
+          if (callback) callback();
+        }
+      }
+      scrollAnimId = requestAnimationFrame(step);
+    }
+
+    function updateActiveDot(index) {
+      dots.forEach((d, i) => {
+        const isActive = i === index;
+        d.btn.classList.toggle('active', isActive);
+        d.btn.setAttribute('aria-selected', String(isActive));
+        if (!isActive) {
+          d.fill.style.width = '0%';
+        }
+      });
+    }
+
+    function goToSlide(targetIdx, smooth = true) {
+      currentIndex = (targetIdx + total) % total;
+      updateActiveDot(currentIndex);
+      const targetScroll = getTargetScroll(currentIndex);
+      if (smooth) {
+        smoothScrollTo(targetScroll, SLIDE_TRANSITION);
+      } else {
+        track.scrollLeft = targetScroll;
+      }
+    }
+
+    function updatePlayPauseButton() {
+      if (!playPauseBtn) return;
+      const pauseIcon = playPauseBtn.querySelector('.icon-pause');
+      const playIcon = playPauseBtn.querySelector('.icon-play');
+      if (isPlaying) {
+        if (pauseIcon) pauseIcon.style.display = '';
+        if (playIcon) playIcon.style.display = 'none';
+        playPauseBtn.setAttribute('aria-label', 'Pause autoplay');
+        playPauseBtn.setAttribute('title', 'Pause');
+      } else {
+        if (pauseIcon) pauseIcon.style.display = 'none';
+        if (playIcon) playIcon.style.display = '';
+        playPauseBtn.setAttribute('aria-label', 'Play autoplay');
+        playPauseBtn.setAttribute('title', 'Play');
+      }
+    }
+
+    if (playPauseBtn) {
+      playPauseBtn.addEventListener('click', () => {
+        if (isPlaying) {
+          isPlaying = false;
+        } else {
+          if (prefersReducedMotion) return;
+          isPlaying = true;
+          lastTimestamp = performance.now();
+        }
+        updatePlayPauseButton();
+      });
+      updatePlayPauseButton();
+    }
+
+    // Main animation loop for progress fill and auto slide advancement
+    function animationLoop(timestamp) {
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const dt = timestamp - lastTimestamp;
+      lastTimestamp = timestamp;
+
+      const shouldAdvance = isPlaying && isSectionVisible && !isUserInteracting && !prefersReducedMotion;
+      if (shouldAdvance) {
+        progress += dt / AUTOPLAY_DURATION;
+        if (progress >= 1) {
+          progress = 0;
+          goToSlide((currentIndex + 1) % total, true);
+        } else {
+          const currentDot = dots[currentIndex];
+          if (currentDot) {
+            currentDot.fill.style.width = `${Math.min(100, progress * 100)}%`;
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(animationLoop);
+    }
+    animId = requestAnimationFrame(animationLoop);
+
+    // Pause autoplay when section is off screen (IntersectionObserver)
+    const carouselSection = track.closest('.styles-section') || track;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isSectionVisible = entry.isIntersecting;
+        if (isSectionVisible) {
+          lastTimestamp = performance.now();
+        }
+      });
+    }, { threshold: 0.15 });
+    observer.observe(carouselSection);
+
+    // Track scroll listener for trackpad, touch, and manual gestures
+    track.addEventListener('scroll', () => {
+      if (isProgrammaticScroll) return;
+
+      isUserInteracting = true;
+      const step = getSlideStep();
+      const snappedIdx = Math.min(total - 1, Math.max(0, Math.round(track.scrollLeft / step)));
+      if (snappedIdx !== currentIndex) {
+        currentIndex = snappedIdx;
+        updateActiveDot(currentIndex);
+        progress = 0;
+      }
+
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isUserInteracting = false;
+        lastTimestamp = performance.now();
+      }, 1200);
+    }, { passive: true });
+
+    // Stop programmatic scroll on user touch/drag
+    track.addEventListener('touchstart', () => {
+      if (scrollAnimId) {
+        cancelAnimationFrame(scrollAnimId);
+        scrollAnimId = null;
+        isProgrammaticScroll = false;
+      }
+      isUserInteracting = true;
+    }, { passive: true });
+
+    // Desktop mouse drag-to-scroll without breaking CTA link clicks
+    let isMouseDown = false;
+    let startX = 0;
+    let startScroll = 0;
+    let hasDragged = false;
+
+    track.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      if (e.target.closest('a, button')) return;
+      if (scrollAnimId) {
+        cancelAnimationFrame(scrollAnimId);
+        scrollAnimId = null;
+        isProgrammaticScroll = false;
+      }
+      isMouseDown = true;
+      hasDragged = false;
+      startX = e.pageX;
+      startScroll = track.scrollLeft;
+      isUserInteracting = true;
+      track.style.scrollBehavior = 'auto';
+      track.style.scrollSnapType = 'none';
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isMouseDown) return;
+      const dx = e.pageX - startX;
+      if (Math.abs(dx) > 6) hasDragged = true;
+      if (hasDragged) {
+        track.scrollLeft = startScroll - dx;
+      }
+    });
+
+    const stopDrag = () => {
+      if (!isMouseDown) return;
+      isMouseDown = false;
+      track.style.scrollBehavior = '';
+      track.style.scrollSnapType = '';
+      if (hasDragged) {
+        const captureClick = (ev) => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          window.removeEventListener('click', captureClick, true);
+        };
+        window.addEventListener('click', captureClick, true);
+        setTimeout(() => window.removeEventListener('click', captureClick, true), 50);
+        hasDragged = false;
+      }
+      setTimeout(() => {
+        isUserInteracting = false;
+        lastTimestamp = performance.now();
+      }, 1200);
+    };
+
+    window.addEventListener('mouseup', stopDrag);
+    window.addEventListener('blur', stopDrag);
+  }
+
+  // Initialize Styles Carousel (Apple-style on index.html, classic on styles.html if present)
+  if (document.getElementById('stylesDotsPill')) {
+    initAppleStylesCarousel();
+  } else if (document.getElementById('stylesTrack')) {
+    const stylesTrack = document.getElementById('stylesTrack');
+    const getVisible = () => window.innerWidth < 600 ? 1 : window.innerWidth < 1024 ? 2 : 4;
+    initCarousel(
+      stylesTrack,
+      document.getElementById('stylesPrev'),
+      document.getElementById('stylesNext'),
+      document.getElementById('stylesDots'),
+      getVisible,
+      2600
+    );
+  }
 
   // Testimonial carousel (shows 3 on desktop)
   const testimonialTrack = document.getElementById('testimonialTrack');
