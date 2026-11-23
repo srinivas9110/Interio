@@ -504,16 +504,28 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: flex;
   gap: 24px;
   padding: 16px 32px;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
+}
+.carousel__track::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 .carousel__track:active { cursor: grabbing; }
 
 .style-card {
   flex: 0 0 290px;
+  scroll-snap-align: start;
   background: var(--clr-white);
   border-radius: var(--radius);
   overflow: hidden;
@@ -566,20 +578,29 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   box-shadow: 0 2px 12px rgba(0,0,0,0.1);
   font-size: 1.3rem;
   display: flex; align-items: center; justify-content: center;
-  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s, opacity 0.2s;
   color: var(--clr-text);
+  cursor: pointer;
 }
-.carousel__btn:hover {
+.carousel__btn:hover:not(:disabled):not([aria-disabled="true"]) {
   background: var(--clr-accent);
   color: #fff;
   transform: scale(1.1);
   box-shadow: 0 4px 16px rgba(45,106,79,0.3);
 }
+.carousel__btn:disabled,
+.carousel__btn[aria-disabled="true"] {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+  box-shadow: none;
+  transform: none !important;
+}
 .carousel__btn.dark {
   background: rgba(255,255,255,0.1);
   color: #fff;
 }
-.carousel__btn.dark:hover { background: var(--clr-accent); }
+.carousel__btn.dark:hover:not(:disabled):not([aria-disabled="true"]) { background: var(--clr-accent); }
 .carousel__dots {
   display: flex;
   gap: 8px;
@@ -588,6 +609,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .carousel__dot {
   width: 8px; height: 8px;
   border-radius: 50%;
+  border: none;
+  padding: 0;
   background: rgba(0,0,0,0.2);
   transition: background 0.3s, transform 0.3s;
   cursor: pointer;
@@ -739,11 +762,28 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .testimonial-track {
   display: flex;
   gap: 24px;
-  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   padding: 8px 0 32px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
 }
+.testimonial-track::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.testimonial-track:active { cursor: grabbing; }
 .testimonial-card {
   flex: 0 0 calc(33.333% - 16px);
+  scroll-snap-align: start;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: var(--radius);
@@ -1262,8 +1302,29 @@ textarea.form-control { resize: vertical; min-height: 130px; }
 .form-submit:hover { background: #235a40; transform: scale(1.02); }
 
 /* ---- ROOM LOOK SWITCHER ----------------------------------- */
-.room-switcher-section {
+.room-switcher-section,
+.room-switcher-section.section-padding {
   position: relative;
+  padding-top: 76px;
+  padding-bottom: 24px;
+  scroll-margin-top: 72px;
+}
+
+.room-switcher-section .section-header {
+  margin-bottom: 12px;
+}
+
+.room-switcher-section .section-header h2 {
+  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+}
+
+.room-switcher-section .section-header p {
+  font-size: clamp(0.88rem, 1.1vw, 0.98rem);
+  color: var(--clr-text-sec);
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .room-switcher {
@@ -1273,7 +1334,9 @@ textarea.form-control { resize: vertical; min-height: 130px; }
 
 .room-stage {
   position: relative;
-  width: 100%;
+  width: min(100%, calc((100vh - 400px) * 16 / 9));
+  width: min(100%, calc((100svh - 400px) * 16 / 9));
+  margin-inline: auto;
   aspect-ratio: 16 / 9;
   border-radius: var(--radius);
   overflow: hidden;
@@ -1331,8 +1394,8 @@ textarea.form-control { resize: vertical; min-height: 130px; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 28px;
-  gap: 12px;
+  margin-top: 14px;
+  gap: 8px;
 }
 
 .room-dots {
@@ -1429,6 +1492,30 @@ textarea.form-control { resize: vertical; min-height: 130px; }
   .form-row { grid-template-columns: 1fr; }
   .footer__links { grid-template-columns: 1fr 1fr; }
   .stats__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 639px) {
+  .room-switcher-section,
+  .room-switcher-section.section-padding {
+    padding-top: 76px;
+    padding-bottom: 28px;
+    scroll-margin-top: 70px;
+  }
+  .room-switcher-section .section-header {
+    margin-bottom: 12px;
+  }
+  .room-switcher {
+    padding: 0;
+  }
+  .room-stage {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    max-width: 100%;
+  }
+  .room-controls {
+    margin-top: 14px;
+    gap: 8px;
+  }
 }
 
 @media (max-width: 480px) {

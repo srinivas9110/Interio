@@ -75,34 +75,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const cards = Array.from(trackEl.children);
     if (!cards.length) return;
     const total = cards.length;
-    let current = 0;
-    let startX = 0, isDragging = false, dragOffset = 0;
     let autoPlayTimer = null;
+    let userScrollTimer = null;
+    let isDown = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+    let hasDragged = false;
+    let isTicking = false;
 
-    const getCardWidth = () => {
+    const getCardStep = () => {
       const card = cards[0];
-      if (!card) return 0;
+      if (!card) return 314;
       const rect = card.getBoundingClientRect();
       const style = window.getComputedStyle(trackEl);
       const gap = parseFloat(style.gap) || 24;
       return rect.width + gap;
     };
 
-    const getMaxIndex = () => {
-      const vis = typeof visibleCountFn === 'function' ? visibleCountFn() : (visibleCountFn || 1);
-      return Math.max(0, total - vis);
+    const getMaxScroll = () => {
+      return Math.max(0, trackEl.scrollWidth - trackEl.clientWidth);
     };
 
-    const updateDots = () => {
-      if (!dotsContainer) return;
-      const dots = dotsContainer.querySelectorAll('.carousel__dot');
-      const maxIdx = getMaxIndex();
-      const dotCount = dots.length;
-      if (!dotCount) return;
-      const activeDotIdx = maxIdx > 0 ? Math.round((current / maxIdx) * (dotCount - 1)) : 0;
-      dots.forEach((d, i) => {
-        d.classList.toggle('active', i === activeDotIdx);
-      });
+    const updateControls = () => {
+      const maxScroll = getMaxScroll();
+      const currentScroll = trackEl.scrollLeft;
+
+      // Update Prev / Next buttons at boundaries
+      if (prevBtn) {
+        const isStart = currentScroll <= 6;
+        prevBtn.disabled = isStart;
+        prevBtn.setAttribute('aria-disabled', String(isStart));
+      }
+      if (nextBtn) {
+        const isEnd = currentScroll >= maxScroll - 6;
+        nextBtn.disabled = isEnd;
+        nextBtn.setAttribute('aria-disabled', String(isEnd));
+      }
+
+      // Update Dots
+      if (dotsContainer) {
+        const dots = dotsContainer.querySelectorAll('.carousel__dot');
+        const dotCount = dots.length;
+        if (dotCount > 0) {
+          const activeIdx = maxScroll > 0
+            ? Math.min(dotCount - 1, Math.max(0, Math.round((currentScroll / maxScroll) * (dotCount - 1))))
+            : 0;
+          dots.forEach((dot, idx) => {
+            dot.classList.toggle('active', idx === activeIdx);
+            dot.setAttribute('aria-pressed', String(idx === activeIdx));
+          });
+        }
+      }
     };
 
     const buildDots = () => {
@@ -110,107 +133,114 @@ document.addEventListener('DOMContentLoaded', () => {
       dotsContainer.innerHTML = '';
       const vis = typeof visibleCountFn === 'function' ? visibleCountFn() : (visibleCountFn || 1);
       const dotCount = Math.min(8, Math.max(3, Math.ceil(total / Math.max(1, vis))));
-      const maxIdx = getMaxIndex();
       for (let i = 0; i < dotCount; i++) {
         const dot = document.createElement('button');
         dot.className = 'carousel__dot' + (i === 0 ? ' active' : '');
-        dot.setAttribute('aria-label', `Slide ${i+1}`);
+        dot.setAttribute('aria-label', `Slide ${i + 1}`);
+        dot.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
         dot.addEventListener('click', () => {
-          const target = Math.round((i / (dotCount - 1)) * maxIdx);
-          goTo(target);
+          const maxScroll = getMaxScroll();
+          const target = (i / (dotCount - 1)) * maxScroll;
+          trackEl.scrollTo({ left: target, behavior: 'smooth' });
           resetAutoPlay();
         });
         dotsContainer.appendChild(dot);
       }
     };
 
-    function goTo(idx, animated = true) {
-      const maxIdx = getMaxIndex();
-      if (idx > maxIdx) {
-        current = 0; // seamless wrap around
-      } else if (idx < 0) {
-        current = maxIdx;
-      } else {
-        current = idx;
+    // Scroll listener throttled with requestAnimationFrame
+    trackEl.addEventListener('scroll', () => {
+      if (!isTicking) {
+        requestAnimationFrame(() => {
+          updateControls();
+          isTicking = false;
+        });
+        isTicking = true;
       }
-      
-      const w = getCardWidth();
-      trackEl.style.transition = animated ? 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)' : 'none';
-      trackEl.style.transform = `translateX(-${current * w}px)`;
-      updateDots();
-    }
+      // Pause autoplay during user scroll, resume after quiet period
+      stopAutoPlay();
+      clearTimeout(userScrollTimer);
+      userScrollTimer = setTimeout(() => {
+        startAutoPlay();
+      }, 3500);
+    }, { passive: true });
 
+    // Arrow buttons using track.scrollBy
     if (prevBtn) {
       prevBtn.addEventListener('click', () => {
-        goTo(current - 1);
+        const step = getCardStep();
+        trackEl.scrollBy({ left: -step, behavior: 'smooth' });
         resetAutoPlay();
       });
     }
 
     if (nextBtn) {
       nextBtn.addEventListener('click', () => {
-        goTo(current + 1);
+        const step = getCardStep();
+        trackEl.scrollBy({ left: step, behavior: 'smooth' });
         resetAutoPlay();
       });
     }
 
-    // Touch & pointer dragging
-    const onDragStart = (clientX) => {
-      isDragging = true;
-      startX = clientX;
-      dragOffset = 0;
-      trackEl.style.transition = 'none';
+    // Desktop mouse drag-to-scroll without breaking clicks on cards
+    trackEl.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      isDown = true;
+      hasDragged = false;
+      startX = e.pageX;
+      startScrollLeft = trackEl.scrollLeft;
+      trackEl.style.scrollBehavior = 'auto';
+      trackEl.style.scrollSnapType = 'none';
       stopAutoPlay();
-    };
+    });
 
-    const onDragMove = (clientX) => {
-      if (!isDragging) return;
-      dragOffset = clientX - startX;
-      const w = getCardWidth();
-      const currentTranslate = -current * w;
-      trackEl.style.transform = `translateX(${currentTranslate + dragOffset}px)`;
-    };
-
-    const onDragEnd = () => {
-      if (!isDragging) return;
-      isDragging = false;
-      trackEl.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
-      const threshold = 40;
-      if (dragOffset < -threshold) {
-        goTo(current + 1);
-      } else if (dragOffset > threshold) {
-        goTo(current - 1);
-      } else {
-        goTo(current);
+    window.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      const dx = e.pageX - startX;
+      if (Math.abs(dx) > 6) {
+        hasDragged = true;
       }
-      dragOffset = 0;
+      if (hasDragged) {
+        trackEl.scrollLeft = startScrollLeft - dx;
+      }
+    });
+
+    const endDrag = () => {
+      if (!isDown) return;
+      isDown = false;
+      trackEl.style.scrollBehavior = '';
+      trackEl.style.scrollSnapType = '';
+
+      if (hasDragged) {
+        // Prevent accidental card clicks if dragged
+        const captureClick = (ev) => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          window.removeEventListener('click', captureClick, true);
+        };
+        window.addEventListener('click', captureClick, true);
+        setTimeout(() => {
+          window.removeEventListener('click', captureClick, true);
+        }, 50);
+        hasDragged = false;
+      }
       startAutoPlay();
     };
 
-    trackEl.addEventListener('mousedown', e => {
-      onDragStart(e.clientX);
-    });
-    window.addEventListener('mousemove', e => {
-      if (isDragging) onDragMove(e.clientX);
-    });
-    window.addEventListener('mouseup', () => {
-      if (isDragging) onDragEnd();
-    });
-
-    trackEl.addEventListener('touchstart', e => {
-      if (e.touches.length === 1) onDragStart(e.touches[0].clientX);
-    }, { passive: true });
-    trackEl.addEventListener('touchmove', e => {
-      if (isDragging && e.touches.length === 1) onDragMove(e.touches[0].clientX);
-    }, { passive: true });
-    trackEl.addEventListener('touchend', () => onDragEnd());
+    window.addEventListener('mouseup', endDrag);
+    window.addEventListener('blur', endDrag);
 
     // Auto Play with smooth cadence
     function startAutoPlay() {
       if (autoPlayTimer) clearInterval(autoPlayTimer);
       autoPlayTimer = setInterval(() => {
-        const maxIdx = getMaxIndex();
-        goTo(current >= maxIdx ? 0 : current + 1);
+        const maxScroll = getMaxScroll();
+        const step = getCardStep();
+        if (trackEl.scrollLeft >= maxScroll - 10) {
+          trackEl.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          trackEl.scrollBy({ left: step, behavior: 'smooth' });
+        }
       }, autoScrollSpeed);
     }
 
@@ -230,15 +260,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (container) {
       container.addEventListener('mouseenter', stopAutoPlay);
       container.addEventListener('mouseleave', startAutoPlay);
+      container.addEventListener('touchstart', stopAutoPlay, { passive: true });
     }
 
     buildDots();
-    goTo(0, false);
+    updateControls();
     startAutoPlay();
 
     window.addEventListener('resize', () => {
       buildDots();
-      goTo(current, false);
+      updateControls();
     }, { passive: true });
   }
 
