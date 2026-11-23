@@ -413,14 +413,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const layers = [];
     const dots = [];
 
-    // Clear existing layers from stage and dots container without removing controls
-    stage.querySelectorAll('.room-layer').forEach(layer => layer.remove());
+    // Clear stage and dots container
+    stage.innerHTML = '';
     dotsGroup.innerHTML = '';
-
-    const controls = dotsGroup.closest('.room-controls');
-    if (controls && controls.parentElement !== stage) {
-      stage.appendChild(controls);
-    }
 
     // Build layers and dots from array
     roomLooks.forEach((look, idx) => {
@@ -436,11 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
       img.loading = idx === 0 ? 'eager' : 'lazy';
 
       layer.appendChild(img);
-      if (controls && controls.parentElement === stage) {
-        stage.insertBefore(layer, controls);
-      } else {
-        stage.appendChild(layer);
-      }
+      stage.appendChild(layer);
       layers.push(layer);
 
       // Create dot button
