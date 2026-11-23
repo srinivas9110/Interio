@@ -353,7 +353,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const stage = document.getElementById('roomStage');
     const dotsGroup = document.getElementById('roomDots');
     const label = document.getElementById('roomLabel');
-    const section = document.getElementById('roomSwitcherSection');
 
     if (!stage || !dotsGroup || !label) return;
 
@@ -372,57 +371,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     ];
 
-    // Preload all look images immediately and decode before first switch
+    // Preload all look images immediately to avoid any click flicker
     roomLooks.forEach(look => {
       const preloadImg = new Image();
       preloadImg.src = look.image;
-      if ('decode' in preloadImg) {
-        preloadImg.decode().catch(() => {});
-      }
     });
 
     let currentIndex = 0;
     let cleanupTimer = null;
-    let labelFadeTimer = null;
-    let hintTimer = null;
-    let hasInteracted = false;
     const layers = [];
     const dots = [];
 
     // Clear stage and dots container
     stage.innerHTML = '';
     dotsGroup.innerHTML = '';
-
-    const stopHintPulse = () => {
-      hasInteracted = true;
-      if (hintTimer) {
-        clearTimeout(hintTimer);
-        hintTimer = null;
-      }
-      dots.forEach(dot => dot.classList.remove('is-hinting'));
-    };
-
-    // Smooth label fade transition (~250ms total: 125ms out, 125ms in)
-    const updateLabel = (newText) => {
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (prefersReducedMotion || !label.textContent) {
-        label.textContent = newText;
-        label.classList.remove('is-fading');
-        return;
-      }
-
-      if (labelFadeTimer) {
-        clearTimeout(labelFadeTimer);
-        labelFadeTimer = null;
-      }
-
-      label.classList.add('is-fading');
-      labelFadeTimer = setTimeout(() => {
-        label.textContent = newText;
-        label.classList.remove('is-fading');
-        labelFadeTimer = null;
-      }, 125);
-    };
 
     // Build layers and dots from array
     roomLooks.forEach((look, idx) => {
@@ -435,7 +397,6 @@ document.addEventListener('DOMContentLoaded', () => {
       img.alt = look.alt;
       img.width = 1920;
       img.height = 1080;
-      img.decoding = 'async';
       img.loading = idx === 0 ? 'eager' : 'lazy';
 
       layer.appendChild(img);
@@ -450,10 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.setAttribute('aria-label', look.name);
       btn.setAttribute('aria-pressed', idx === 0 ? 'true' : 'false');
 
-      btn.addEventListener('click', () => {
-        stopHintPulse();
-        switchLook(idx);
-      });
+      btn.addEventListener('click', () => switchLook(idx));
       dotsGroup.appendChild(btn);
       dots.push(btn);
     });
@@ -464,7 +422,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function switchLook(targetIndex) {
       if (targetIndex === currentIndex) return;
 
-      stopHintPulse();
       const outgoingIndex = currentIndex;
       const incomingIndex = targetIndex;
 
@@ -476,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Crossfade logic:
       // Outgoing layer stays at full opacity underneath (z-index 1)
-      // Incoming layer starts at opacity 0 on top (z-index 2) with subtle settle start scale
+      // Incoming layer starts at opacity 0 on top (z-index 2)
       // Non-involved layers remain hidden
       layers.forEach((layer, idx) => {
         if (idx === outgoingIndex) {
@@ -488,24 +445,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
-      // Force reflow to ensure the browser registers opacity: 0 and scale(1.045) before transitioning
+      // Force reflow to ensure the browser registers opacity: 0 before transitioning
       void layers[incomingIndex].offsetWidth;
 
-      // Animate incoming layer to opacity: 1 and settle scale to base
+      // Animate incoming layer to opacity: 1 on top
       layers[incomingIndex].className = 'room-layer is-incoming';
 
-      // Update state, dot pressed states and smooth label transition
+      // Update state, dot pressed states and aria-live label
       currentIndex = incomingIndex;
       dots.forEach((dot, idx) => {
         dot.setAttribute('aria-pressed', idx === incomingIndex ? 'true' : 'false');
       });
-      updateLabel(roomLooks[incomingIndex].name);
+      label.textContent = roomLooks[incomingIndex].name;
 
       // Detect prefers-reduced-motion
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const delay = prefersReducedMotion ? 0 : 950;
+      const delay = prefersReducedMotion ? 0 : 750;
 
-      // Clean up: hide outgoing layer once transition ends (~950ms)
+      // Clean up: hide outgoing layer once transition ends (~750ms)
       cleanupTimer = setTimeout(() => {
         layers.forEach((layer, idx) => {
           layer.className = 'room-layer' + (idx === currentIndex ? ' is-active' : '');
@@ -520,7 +477,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!keys.includes(e.key)) return;
 
       e.preventDefault();
-      stopHintPulse();
       const total = roomLooks.length;
       let nextIndex = currentIndex;
 
@@ -539,73 +495,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       dots[nextIndex].focus();
     });
-
-    // Mobile swipe navigation with pointer events (min 40px, non-blocking vertical scroll)
-    let pointerStartX = 0;
-    let pointerStartY = 0;
-    let isPointerDown = false;
-
-    stage.addEventListener('pointerdown', (e) => {
-      if (e.button !== undefined && e.button !== 0) return;
-      isPointerDown = true;
-      pointerStartX = e.clientX;
-      pointerStartY = e.clientY;
-    });
-
-    stage.addEventListener('pointerup', (e) => {
-      if (!isPointerDown) return;
-      isPointerDown = false;
-      const diffX = e.clientX - pointerStartX;
-      const diffY = e.clientY - pointerStartY;
-
-      if (Math.abs(diffX) >= 40 && Math.abs(diffX) > Math.abs(diffY)) {
-        stopHintPulse();
-        if (diffX < 0) {
-          // Swipe left -> next look
-          switchLook((currentIndex + 1) % roomLooks.length);
-        } else {
-          // Swipe right -> previous look
-          switchLook((currentIndex - 1 + roomLooks.length) % roomLooks.length);
-        }
-      }
-    });
-
-    stage.addEventListener('pointercancel', () => {
-      isPointerDown = false;
-    });
-
-    // Entrance animation and gentle hint pulse on unselected dot
-    if (section) {
-      if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              section.classList.add('is-entered');
-              observer.unobserve(section);
-              observer.disconnect();
-
-              if (!hasInteracted) {
-                hintTimer = setTimeout(() => {
-                  if (!hasInteracted) {
-                    dots.forEach((dot, idx) => {
-                      if (idx !== currentIndex) {
-                        dot.classList.add('is-hinting');
-                        dot.addEventListener('animationend', () => {
-                          dot.classList.remove('is-hinting');
-                        }, { once: true });
-                      }
-                    });
-                  }
-                }, 700);
-              }
-            }
-          });
-        }, { threshold: 0.15 });
-        observer.observe(section);
-      } else {
-        section.classList.add('is-entered');
-      }
-    }
   };
 
   initRoomSwitcher();

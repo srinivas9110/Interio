@@ -1255,32 +1255,6 @@ textarea.form-control { resize: vertical; min-height: 130px; }
   position: relative;
 }
 
-/* Entrance animation */
-.room-animate-item {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
-  will-change: opacity, transform;
-}
-
-.room-switcher-section.is-entered .section-header h2.room-animate-item {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0ms;
-}
-
-.room-switcher-section.is-entered .section-header p.room-animate-item {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 120ms;
-}
-
-.room-switcher-section.is-entered .room-switcher.room-animate-item {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 240ms;
-}
-
 .room-switcher {
   max-width: 1040px;
   margin: 0 auto;
@@ -1294,10 +1268,6 @@ textarea.form-control { resize: vertical; min-height: 130px; }
   overflow: hidden;
   background: #e5e5ea;
   box-shadow: var(--shadow-hover);
-  touch-action: pan-y;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
 }
 
 .room-layer {
@@ -1305,22 +1275,15 @@ textarea.form-control { resize: vertical; min-height: 130px; }
   inset: 0;
   opacity: 0;
   z-index: 0;
-  transition: opacity 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: opacity 0.7s ease;
   pointer-events: none;
-  overflow: hidden;
 }
 
-/* Image scaling hides bottom line artifact */
 .room-layer img {
   display: block;
   width: 100%;
-  height: calc(100% + 4px);
+  height: 100%;
   object-fit: cover;
-  transform-origin: center top;
-  transform: scale(1.015);
-  transition: transform 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
-  will-change: transform;
-  pointer-events: none;
 }
 
 /* Steady state for current active look */
@@ -1329,86 +1292,54 @@ textarea.form-control { resize: vertical; min-height: 130px; }
   z-index: 1;
 }
 
-.room-layer.is-active img {
-  transform: scale(1.015);
-}
-
-/* Outgoing look stays fully opaque underneath at z-index 1 (no grey dip) */
+/* Outgoing look stays fully opaque underneath at z-index 1 */
 .room-layer.is-outgoing {
   opacity: 1;
   z-index: 1;
   transition: none;
 }
 
-.room-layer.is-outgoing img {
-  transform: scale(1.015);
-  transition: none;
-}
-
-/* Incoming look initial state before transition with settle start scale */
+/* Incoming look initial state before transition */
 .room-layer.is-incoming-start {
   opacity: 0;
   z-index: 2;
   transition: none;
 }
 
-.room-layer.is-incoming-start img {
-  transform: scale(1.045);
-  transition: none;
-}
-
-/* Incoming look transitions opacity 0.9s and eases settle scale over 1.2s */
+/* Incoming look transitions to 1 on top */
 .room-layer.is-incoming {
   opacity: 1;
   z-index: 2;
-  transition: opacity 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-.room-layer.is-incoming img {
-  transform: scale(1.015);
-  transition: transform 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-/* Controls pill container */
-.room-controls-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 28px;
+  transition: opacity 0.7s ease;
 }
 
 .room-controls {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 16px 36px 14px;
-  border-radius: 980px;
-  background: rgba(255, 255, 255, 0.78);
-  backdrop-filter: saturate(180%) blur(24px);
-  -webkit-backdrop-filter: saturate(180%) blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
-  gap: 8px;
+  margin-top: 28px;
+  gap: 12px;
 }
 
 .room-dots {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 14px;
   padding: 6px;
 }
 
 .room-dot {
   position: relative;
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   border: none;
   cursor: pointer;
   padding: 0;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.18);
-  transition: transform 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
   outline: none;
   -webkit-tap-highlight-color: transparent;
 }
@@ -1417,38 +1348,13 @@ textarea.form-control { resize: vertical; min-height: 130px; }
   transform: scale(1.08);
 }
 
-/* Animated ring around selected dot */
-.room-dot::after {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 2px solid var(--clr-accent);
-  opacity: 0;
-  transform: scale(0.72);
-  transition: opacity 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
-  pointer-events: none;
-}
-
-.room-dot[aria-pressed="true"]::after {
-  opacity: 1;
-  transform: scale(1);
+.room-dot[aria-pressed="true"] {
+  box-shadow: 0 0 0 3px var(--clr-bg), 0 0 0 5px var(--clr-accent), inset 0 0 0 1px rgba(0, 0, 0, 0.15);
 }
 
 .room-dot:focus-visible {
   outline: 2px solid #0071e3;
-  outline-offset: 8px;
-}
-
-/* Unselected dot gentle hint pulse */
-@keyframes gentleDotPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.18); }
-  100% { transform: scale(1); }
-}
-
-.room-dot.is-hinting {
-  animation: gentleDotPulse 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) 1;
+  outline-offset: 6px;
 }
 
 .room-label {
@@ -1458,60 +1364,11 @@ textarea.form-control { resize: vertical; min-height: 130px; }
   letter-spacing: -0.01em;
   text-align: center;
   margin: 0;
-  min-height: 1.4em;
-  transition: opacity 0.12s ease;
-}
-
-.room-label.is-fading {
-  opacity: 0;
-}
-
-@media (max-width: 640px) {
-  .room-stage {
-    aspect-ratio: 4 / 3;
-  }
-  .room-layer img {
-    object-position: center 65%;
-  }
-  .room-switcher-section .section-header h2 {
-    font-size: clamp(1.65rem, 6.5vw, 2.2rem);
-  }
-  .room-controls {
-    padding: 12px 24px 10px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .room-animate-item {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
   .room-layer,
-  .room-layer.is-incoming,
-  .room-layer.is-incoming-start,
-  .room-layer.is-outgoing {
-    transition: none !important;
-  }
-  .room-layer img {
-    transition: none !important;
-    transform: scale(1.015) !important;
-  }
-  .room-dot {
-    transition: none !important;
-    transform: none !important;
-  }
-  .room-dot::after {
-    transition: none !important;
-    transform: none !important;
-  }
-  .room-dot[aria-pressed="true"]::after {
-    transform: scale(1) !important;
-  }
-  .room-dot.is-hinting {
-    animation: none !important;
-  }
-  .room-label {
+  .room-layer.is-incoming {
     transition: none !important;
   }
 }
