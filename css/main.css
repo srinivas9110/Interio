@@ -34,6 +34,7 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  overflow-x: hidden;
 }
 
 body {
@@ -1248,6 +1249,129 @@ textarea.form-control { resize: vertical; min-height: 130px; }
   margin-top: 8px;
 }
 .form-submit:hover { background: #235a40; transform: scale(1.02); }
+
+/* ---- ROOM LOOK SWITCHER ----------------------------------- */
+.room-switcher-section {
+  position: relative;
+}
+
+.room-switcher {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.room-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #e5e5ea;
+  box-shadow: var(--shadow-hover);
+}
+
+.room-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  z-index: 0;
+  transition: opacity 0.7s ease;
+  pointer-events: none;
+}
+
+.room-layer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Steady state for current active look */
+.room-layer.is-active {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Outgoing look stays fully opaque underneath at z-index 1 */
+.room-layer.is-outgoing {
+  opacity: 1;
+  z-index: 1;
+  transition: none;
+}
+
+/* Incoming look initial state before transition */
+.room-layer.is-incoming-start {
+  opacity: 0;
+  z-index: 2;
+  transition: none;
+}
+
+/* Incoming look transitions to 1 on top */
+.room-layer.is-incoming {
+  opacity: 1;
+  z-index: 2;
+  transition: opacity 0.7s ease;
+}
+
+.room-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 28px;
+  gap: 12px;
+}
+
+.room-dots {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 6px;
+}
+
+.room-dot {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.room-dot:hover {
+  transform: scale(1.08);
+}
+
+.room-dot[aria-pressed="true"] {
+  box-shadow: 0 0 0 3px var(--clr-bg), 0 0 0 5px var(--clr-accent), inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+.room-dot:focus-visible {
+  outline: 2px solid #0071e3;
+  outline-offset: 6px;
+}
+
+.room-label {
+  font-size: 0.95rem;
+  font-weight: var(--fw-medium);
+  color: var(--clr-text-sec);
+  letter-spacing: -0.01em;
+  text-align: center;
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .room-layer,
+  .room-layer.is-incoming {
+    transition: none !important;
+  }
+}
 
 /* ============================================================
    RESPONSIVE

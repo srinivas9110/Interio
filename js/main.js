@@ -347,6 +347,157 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 1500);
     });
   }
+
+  /* ── Room Look Switcher ──────────────────────────────── */
+  const initRoomSwitcher = () => {
+    const stage = document.getElementById('roomStage');
+    const dotsGroup = document.getElementById('roomDots');
+    const label = document.getElementById('roomLabel');
+
+    if (!stage || !dotsGroup || !label) return;
+
+    const roomLooks = [
+      {
+        name: "Daylight Grey",
+        color: "#bdbab5",
+        image: "https://res.cloudinary.com/deiwigg5a/image/upload/v1795418967/Living_-5-1_gwfj1s.webp",
+        alt: "Contemporary living room in Daylight Grey palette with soft natural lighting and warm neutral furnishings"
+      },
+      {
+        name: "Emerald Evening",
+        color: "#1f5a45",
+        image: "https://res.cloudinary.com/deiwigg5a/image/upload/v1795418933/interior_img_2_xrhtsu.webp",
+        alt: "Contemporary living room in Emerald Evening palette with rich deep green tones and dramatic ambient lighting"
+      }
+    ];
+
+    // Preload all look images immediately to avoid any click flicker
+    roomLooks.forEach(look => {
+      const preloadImg = new Image();
+      preloadImg.src = look.image;
+    });
+
+    let currentIndex = 0;
+    let cleanupTimer = null;
+    const layers = [];
+    const dots = [];
+
+    // Clear stage and dots container
+    stage.innerHTML = '';
+    dotsGroup.innerHTML = '';
+
+    // Build layers and dots from array
+    roomLooks.forEach((look, idx) => {
+      // Create layer
+      const layer = document.createElement('div');
+      layer.className = 'room-layer' + (idx === 0 ? ' is-active' : '');
+
+      const img = document.createElement('img');
+      img.src = look.image;
+      img.alt = look.alt;
+      img.width = 1920;
+      img.height = 1080;
+      img.loading = idx === 0 ? 'eager' : 'lazy';
+
+      layer.appendChild(img);
+      stage.appendChild(layer);
+      layers.push(layer);
+
+      // Create dot button
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'room-dot';
+      btn.style.backgroundColor = look.color;
+      btn.setAttribute('aria-label', look.name);
+      btn.setAttribute('aria-pressed', idx === 0 ? 'true' : 'false');
+
+      btn.addEventListener('click', () => switchLook(idx));
+      dotsGroup.appendChild(btn);
+      dots.push(btn);
+    });
+
+    // Set initial look label
+    label.textContent = roomLooks[0].name;
+
+    function switchLook(targetIndex) {
+      if (targetIndex === currentIndex) return;
+
+      const outgoingIndex = currentIndex;
+      const incomingIndex = targetIndex;
+
+      // Handle fast repeated clicks safely by clearing any pending timeout
+      if (cleanupTimer) {
+        clearTimeout(cleanupTimer);
+        cleanupTimer = null;
+      }
+
+      // Crossfade logic:
+      // Outgoing layer stays at full opacity underneath (z-index 1)
+      // Incoming layer starts at opacity 0 on top (z-index 2)
+      // Non-involved layers remain hidden
+      layers.forEach((layer, idx) => {
+        if (idx === outgoingIndex) {
+          layer.className = 'room-layer is-outgoing';
+        } else if (idx === incomingIndex) {
+          layer.className = 'room-layer is-incoming-start';
+        } else {
+          layer.className = 'room-layer';
+        }
+      });
+
+      // Force reflow to ensure the browser registers opacity: 0 before transitioning
+      void layers[incomingIndex].offsetWidth;
+
+      // Animate incoming layer to opacity: 1 on top
+      layers[incomingIndex].className = 'room-layer is-incoming';
+
+      // Update state, dot pressed states and aria-live label
+      currentIndex = incomingIndex;
+      dots.forEach((dot, idx) => {
+        dot.setAttribute('aria-pressed', idx === incomingIndex ? 'true' : 'false');
+      });
+      label.textContent = roomLooks[incomingIndex].name;
+
+      // Detect prefers-reduced-motion
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const delay = prefersReducedMotion ? 0 : 750;
+
+      // Clean up: hide outgoing layer once transition ends (~750ms)
+      cleanupTimer = setTimeout(() => {
+        layers.forEach((layer, idx) => {
+          layer.className = 'room-layer' + (idx === currentIndex ? ' is-active' : '');
+        });
+        cleanupTimer = null;
+      }, delay);
+    }
+
+    // Keyboard navigation: Left/Right Arrow, Up/Down Arrow, Home, End
+    dotsGroup.addEventListener('keydown', (e) => {
+      const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
+      if (!keys.includes(e.key)) return;
+
+      e.preventDefault();
+      const total = roomLooks.length;
+      let nextIndex = currentIndex;
+
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        nextIndex = (currentIndex + 1) % total;
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        nextIndex = (currentIndex - 1 + total) % total;
+      } else if (e.key === 'Home') {
+        nextIndex = 0;
+      } else if (e.key === 'End') {
+        nextIndex = total - 1;
+      }
+
+      if (nextIndex !== currentIndex) {
+        switchLook(nextIndex);
+      }
+      dots[nextIndex].focus();
+    });
+  };
+
+  initRoomSwitcher();
 });
 
 /* Global CSS animation */
