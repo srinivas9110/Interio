@@ -1306,7 +1306,7 @@ textarea.form-control { resize: vertical; min-height: 130px; }
 .room-switcher-section.section-padding {
   position: relative;
   padding-top: 76px;
-  padding-bottom: 24px;
+  padding-bottom: 8px;
   scroll-margin-top: 72px;
 }
 
@@ -1328,14 +1328,14 @@ textarea.form-control { resize: vertical; min-height: 130px; }
 }
 
 .room-switcher {
-  max-width: 1040px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
 .room-stage {
   position: relative;
-  width: min(100%, calc((100vh - 400px) * 16 / 9));
-  width: min(100%, calc((100svh - 400px) * 16 / 9));
+  width: min(100%, 1100px, calc((100vh - 190px) * 16 / 9));
+  width: min(100%, 1100px, calc((100svh - 190px) * 16 / 9));
   margin-inline: auto;
   aspect-ratio: 16 / 9;
   border-radius: var(--radius);
@@ -1390,20 +1390,31 @@ textarea.form-control { resize: vertical; min-height: 130px; }
 }
 
 .room-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 14px;
-  gap: 8px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 980px;
+  padding: 6px 18px 6px 8px;
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  pointer-events: auto;
 }
 
 .room-dots {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  padding: 6px;
+  gap: 8px;
+  padding: 0;
 }
 
 .room-dot {
@@ -1425,21 +1436,25 @@ textarea.form-control { resize: vertical; min-height: 130px; }
 }
 
 .room-dot[aria-pressed="true"] {
-  box-shadow: 0 0 0 3px var(--clr-bg), 0 0 0 5px var(--clr-accent), inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 0 4px var(--clr-accent), inset 0 0 0 1px rgba(0, 0, 0, 0.15);
 }
 
 .room-dot:focus-visible {
   outline: 2px solid #0071e3;
-  outline-offset: 6px;
+  outline-offset: 3px;
 }
 
 .room-label {
-  font-size: 0.95rem;
+  display: inline-block;
+  font-size: 0.92rem;
   font-weight: var(--fw-medium);
-  color: var(--clr-text-sec);
+  color: var(--clr-text);
   letter-spacing: -0.01em;
   text-align: center;
   margin: 0;
+  min-width: 130px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1498,7 +1513,7 @@ textarea.form-control { resize: vertical; min-height: 130px; }
   .room-switcher-section,
   .room-switcher-section.section-padding {
     padding-top: 76px;
-    padding-bottom: 28px;
+    padding-bottom: 8px;
     scroll-margin-top: 70px;
   }
   .room-switcher-section .section-header {
@@ -1513,8 +1528,17 @@ textarea.form-control { resize: vertical; min-height: 130px; }
     max-width: 100%;
   }
   .room-controls {
-    margin-top: 14px;
-    gap: 8px;
+    bottom: 16px;
+    padding: 6px 14px 6px 6px;
+    gap: 10px;
+  }
+  .room-dot {
+    width: 34px;
+    height: 34px;
+  }
+  .room-label {
+    min-width: 130px;
+    font-size: 0.88rem;
   }
 }
 
