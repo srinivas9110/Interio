@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!total) return;
 
     const AUTOPLAY_DURATION = 5000;
-    const SLIDE_TRANSITION = 800;
+    const SLIDE_TRANSITION = 900;
 
     let currentIndex = 0;
     let isPlaying = true;
@@ -312,34 +312,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Accurate cubic-bezier(0.25, 0.1, 0.25, 1) solver
-    function cubicBezier(p1x, p1y, p2x, p2y) {
-      const cx = 3 * p1x;
-      const bx = 3 * (p2x - p1x) - cx;
-      const ax = 1 - cx - bx;
-      const cy = 3 * p1y;
-      const by = 3 * (p2y - p1y) - cy;
-      const ay = 1 - cy - by;
-
-      function sampleX(t) { return ((ax * t + bx) * t + cx) * t; }
-      function sampleY(t) { return ((ay * t + by) * t + cy) * t; }
-      function derivativeX(t) { return (3 * ax * t + 2 * bx) * t + cx; }
-
-      return function (x) {
-        if (x <= 0) return 0;
-        if (x >= 1) return 1;
-        let t = x;
-        for (let i = 0; i < 8; i++) {
-          const dx = sampleX(t) - x;
-          if (Math.abs(dx) < 1e-5) break;
-          const d = derivativeX(t);
-          if (Math.abs(d) < 1e-5) break;
-          t -= dx / d;
-        }
-        return sampleY(t);
-      };
+    // Ease-in-out (cubic) curve
+    function easeInOutCubic(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
-    const appleEase = cubicBezier(0.25, 0.1, 0.25, 1.0);
 
     // Build pill dots
     pill.innerHTML = '';
@@ -365,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getSlideStep() {
-      if (!slides[0]) return 1020;
+      if (!slides[0]) return 880;
       const style = window.getComputedStyle(track);
       const gap = parseFloat(style.gap) || 20;
       return slides[0].offsetWidth + gap;
@@ -374,17 +350,23 @@ document.addEventListener('DOMContentLoaded', () => {
     function getTargetScroll(idx) {
       if (idx === 0) return 0;
       const step = getSlideStep();
-      return Math.min(idx * step, track.scrollWidth - track.clientWidth);
+      return Math.min(idx * step, Math.max(0, track.scrollWidth - track.clientWidth));
     }
 
     let scrollAnimId = null;
     function smoothScrollTo(targetX, duration = SLIDE_TRANSITION, callback) {
-      if (scrollAnimId) cancelAnimationFrame(scrollAnimId);
+      if (scrollAnimId) {
+        cancelAnimationFrame(scrollAnimId);
+        scrollAnimId = null;
+      }
       isProgrammaticScroll = true;
+      track.style.scrollSnapType = 'none';
+
       const startX = track.scrollLeft;
       const distance = targetX - startX;
-      if (Math.abs(distance) < 2) {
+      if (Math.abs(distance) < 1) {
         track.scrollLeft = targetX;
+        track.style.scrollSnapType = '';
         isProgrammaticScroll = false;
         if (callback) callback();
         return;
@@ -394,11 +376,12 @@ document.addEventListener('DOMContentLoaded', () => {
       function step(now) {
         const elapsed = now - startTime;
         const t = Math.min(1, elapsed / duration);
-        track.scrollLeft = startX + distance * appleEase(t);
+        track.scrollLeft = startX + distance * easeInOutCubic(t);
         if (t < 1) {
           scrollAnimId = requestAnimationFrame(step);
         } else {
           track.scrollLeft = targetX;
+          track.style.scrollSnapType = '';
           isProgrammaticScroll = false;
           scrollAnimId = null;
           if (callback) callback();
@@ -521,6 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (scrollAnimId) {
         cancelAnimationFrame(scrollAnimId);
         scrollAnimId = null;
+        track.style.scrollSnapType = '';
         isProgrammaticScroll = false;
       }
       isUserInteracting = true;
@@ -538,6 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (scrollAnimId) {
         cancelAnimationFrame(scrollAnimId);
         scrollAnimId = null;
+        track.style.scrollSnapType = '';
         isProgrammaticScroll = false;
       }
       isMouseDown = true;
@@ -581,6 +566,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('mouseup', stopDrag);
     window.addEventListener('blur', stopDrag);
+
+    // Keep active slide centered on resize
+    window.addEventListener('resize', () => {
+      if (isProgrammaticScroll || isUserInteracting) return;
+      track.scrollLeft = getTargetScroll(currentIndex);
+    }, { passive: true });
   }
 
   // Initialize Styles Carousel (Apple-style on index.html, classic on styles.html if present)

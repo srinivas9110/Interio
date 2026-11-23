@@ -492,8 +492,16 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* ---- STYLES CAROUSEL -------------------------------------- */
-.styles-section { padding-bottom: 100px; }
+.styles-section {
+  --slide-w: min(880px, 78vw, calc((100svh - 160px) * 1.6));
+  overflow-x: clip;
+  padding-bottom: 100px;
+}
 .styles-section .section-header { padding: 0 24px; }
+.styles-section .carousel {
+  overflow: visible;
+  width: 100%;
+}
 .carousel-wrap {
   position: relative;
   overflow: hidden;
@@ -501,15 +509,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 .carousel { overflow: hidden; width: 100%; }
 .carousel__track {
-  --carousel-pl: max(24px, calc((100vw - 1200px) / 2 + 24px));
-  --carousel-slide-w: min(1000px, 85vw);
   display: flex;
   gap: 20px;
   padding-top: 16px;
   padding-bottom: 24px;
-  padding-left: var(--carousel-pl);
-  padding-right: max(var(--carousel-pl), calc(100vw - var(--carousel-slide-w) - var(--carousel-pl)));
-  scroll-padding-left: var(--carousel-pl);
+  padding-inline: calc((100% - var(--slide-w)) / 2);
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x mandatory;
@@ -531,11 +535,12 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* Apple-style full-bleed slide */
 .style-slide {
   position: relative;
-  flex: 0 0 min(1000px, 85vw);
+  flex: 0 0 var(--slide-w);
+  width: var(--slide-w);
   aspect-ratio: 16 / 10;
   border-radius: 28px;
   overflow: hidden;
-  scroll-snap-align: start;
+  scroll-snap-align: center;
   box-shadow: 0 14px 38px rgba(0, 0, 0, 0.09);
   background: #1d1d1f;
   flex-shrink: 0;
@@ -618,12 +623,21 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 /* Apple Pill Navigation & Play/Pause Controls */
+.carousel__controls-wrapper {
+  position: sticky;
+  bottom: 24px;
+  z-index: 5;
+  margin-top: -80px;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
 .carousel__controls {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-top: 28px;
+  pointer-events: auto;
 }
 .carousel__pill {
   display: inline-flex;
@@ -1652,17 +1666,18 @@ textarea.form-control { resize: vertical; min-height: 130px; }
 }
 
 @media (max-width: 639px) {
+  .styles-section {
+    --slide-w: 86vw;
+  }
   .carousel__track {
-    --carousel-pl: 20px;
-    --carousel-slide-w: 85vw;
-    padding-left: 20px;
-    padding-right: max(20px, calc(100vw - 85vw - 20px));
-    scroll-padding-left: 20px;
     gap: 16px;
+    padding-inline: calc((100% - var(--slide-w)) / 2);
   }
   .style-slide {
-    flex: 0 0 85vw;
+    flex: 0 0 var(--slide-w);
+    width: var(--slide-w);
     border-radius: 20px;
+    scroll-snap-align: center;
   }
   .style-slide__header {
     padding: 20px 18px;
@@ -1683,8 +1698,13 @@ textarea.form-control { resize: vertical; min-height: 130px; }
     padding: 7px 14px;
     font-size: 0.82rem;
   }
+  .carousel__controls-wrapper {
+    position: sticky;
+    bottom: 24px;
+    z-index: 5;
+    margin-top: -80px;
+  }
   .carousel__controls {
-    margin-top: 20px;
     gap: 8px;
   }
   .carousel__pill {
